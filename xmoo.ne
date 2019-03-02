@@ -6,7 +6,7 @@ const lexer = moo.compile({
   number: /\d+(?:[.]\d*)?(?:[eE][-+]?\d+)?/,
   //int: /\d+/,
   id: /\w+/,
-  pow: {match: '**', value: it=> '^'},
+  pow: {match: '**', value: it=> ''},
   char: /./
 })
 
