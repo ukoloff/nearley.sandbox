@@ -10,6 +10,7 @@ const lexer = moo.compile({
   number: /\d+(?:[.]\d*)?(?:[eE][-+]?\d+)?/,
   //int: /\d+/,
   id: /\w+/,
+  pow: {match: '**', value: it=> '^'},
   char: /./
 })
 
@@ -29,6 +30,11 @@ function binaryOp(data) {
   return data[0] + ' ' + data[2] + ' ' + data[1]
 }
 
+function powerOp(data) {
+  data[1] = '**'
+  return binaryOp(data)
+}
+
 function unaryOp(data) {
   // return '-' == data[0] ? {'-': data[1]} : data[1]
   return '-' == data[0] ? data[1] + ' NEG' : data[1]
@@ -46,9 +52,13 @@ var grammar = {
     {"name": "sum", "symbols": ["prod"], "postprocess": id},
     {"name": "prod", "symbols": ["prod", /[*\/]/, "term"], "postprocess": binaryOp},
     {"name": "prod", "symbols": ["term"], "postprocess": id},
-    {"name": "term$ebnf$1", "symbols": [/[-+]/], "postprocess": id},
-    {"name": "term$ebnf$1", "symbols": [], "postprocess": function(d) {return null;}},
-    {"name": "term", "symbols": ["term$ebnf$1", "simple"], "postprocess": unaryOp},
+    {"name": "pow", "symbols": [(lexer.has("pow") ? {type: "pow"} : pow)]},
+    {"name": "pow", "symbols": [{"literal":"^"}]},
+    {"name": "term", "symbols": ["unary", "pow", "term"], "postprocess": powerOp},
+    {"name": "term", "symbols": ["unary"], "postprocess": id},
+    {"name": "unary$ebnf$1", "symbols": [/[-+]/], "postprocess": id},
+    {"name": "unary$ebnf$1", "symbols": [], "postprocess": function(d) {return null;}},
+    {"name": "unary", "symbols": ["unary$ebnf$1", "simple"], "postprocess": unaryOp},
     {"name": "simple", "symbols": ["brackets"], "postprocess": id},
     {"name": "simple", "symbols": ["id"], "postprocess": id},
     {"name": "simple", "symbols": ["id", "brackets"], "postprocess": fnCall},

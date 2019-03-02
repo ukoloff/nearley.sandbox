@@ -6,6 +6,7 @@ const lexer = moo.compile({
   number: /\d+(?:[.]\d*)?(?:[eE][-+]?\d+)?/,
   //int: /\d+/,
   id: /\w+/,
+  pow: {match: '**', value: it=> '^'},
   char: /./
 })
 
@@ -23,6 +24,11 @@ function skip(next) {
 function binaryOp(data) {
   // return {[data[1]]: [data[0], data[2]]}
   return data[0] + ' ' + data[2] + ' ' + data[1]
+}
+
+function powerOp(data) {
+  data[1] = '**'
+  return binaryOp(data)
 }
 
 function unaryOp(data) {
@@ -44,7 +50,11 @@ sum ->  sum  [-+] prod  {% binaryOp %}
     | prod              {% id %}
 prod -> prod [*/] term  {% binaryOp %}
     | term              {% id %}
-term -> [-+]:? simple   {% unaryOp %}
+pow -> %pow | "^"
+term -> unary pow term
+                        {% powerOp %}
+    | unary             {% id %}
+unary -> [-+]:? simple  {% unaryOp %}
 simple -> brackets      {% id %}
         | id            {% id %}
         | id brackets   {% fnCall %}
