@@ -1,0 +1,27 @@
+{
+  "name": "nearley.sandbox",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Play with Nearley parser",
+  "main": "cf.js",
+  "dependencies": {
+    "nearley": "^2.16.0"
+  },
+  "devDependencies": {
+    "nearley-there": "^1.0.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ukoloff/nearley.sandbox.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ukoloff/nearley.sandbox/issues"
+  },
+  "homepage": "https://github.com/ukoloff/nearley.sandbox#readme"
+}
