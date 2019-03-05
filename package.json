@@ -5,7 +5,8 @@
   "description": "Play with Nearley parser",
   "main": "cf.js",
   "dependencies": {
-    "nearley": "^2.16.0"
+    "nearley": "^2.16.0",
+    "pegjs": "^0.10.0"
   },
   "devDependencies": {
     "nearley-there": "^1.0.0"
