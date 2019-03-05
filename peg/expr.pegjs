@@ -9,6 +9,8 @@ function binaryOp(left, tail) {
 
 expr = sum
 
+_ = [ \r\t\n]*
+
 sum = left:prod tail:([-+] prod)* { return binaryOp(left, tail)}
 
 prod = left:term tail:([*/] term)* { return binaryOp(left, tail)}
@@ -17,10 +19,10 @@ term = left:unary tail:(pow term:term)? { return tail ? `${left} ${term } **` : 
 
 pow = '^' / '**'
 
-unary = op:[-+]? simple:simple { return '-' === op ? `${simple} NEG` : simple}
+unary = _ op:[-+]? _ simple:simple _ { return '-' === op ? `${simple} NEG` : simple}
 
 simple = brackets
-  / id brackets
+  / id _ brackets
   / id
   / number
 

@@ -1,3 +1,3 @@
 const parser = require('./expr')
 
-console.log(JSON.stringify(parser.parse('1+2*3')))
+console.log(JSON.stringify(parser.parse(' 1 + 2 * 3 ')))
