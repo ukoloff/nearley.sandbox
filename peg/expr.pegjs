@@ -22,13 +22,13 @@ pow = '^' / '**'
 unary = _ op:[-+]? _ simple:simple _ { return '-' === op ? `${simple} NEG` : simple}
 
 simple = brackets
-  / id _ brackets
+  / fn:id _ arg:brackets { return `${arg} ${fn}!` }
   / id
   / number
 
 brackets = '(' value:sum ')' { return value }
 
-id = $( letter (letter / digit)+ )
+id = $( letter (letter / digit)* )
 
 number = str:$( digit+ ('.' digit*)? ('e'i [-+]? digit+)? ) { return parseFloat(str) }
 
