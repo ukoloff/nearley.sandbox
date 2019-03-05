@@ -148,7 +148,7 @@ function peg$parse(input, options) {
       peg$c4 = function(left, tail) { return binaryOp(left, tail)},
       peg$c5 = /^[*\/]/,
       peg$c6 = peg$classExpectation(["*", "/"], false, false),
-      peg$c7 = function(left, tail) { return tail ? `${left} ${term } **` : left},
+      peg$c7 = function(left, tail) { return tail ? `${left} ${tail[1] } **` : left},
       peg$c8 = "^",
       peg$c9 = peg$literalExpectation("^", false),
       peg$c10 = "**",

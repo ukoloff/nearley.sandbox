@@ -15,7 +15,7 @@ sum = left:prod tail:([-+] prod)* { return binaryOp(left, tail)}
 
 prod = left:term tail:([*/] term)* { return binaryOp(left, tail)}
 
-term = left:unary tail:(pow term:term)? { return tail ? `${left} ${term } **` : left}
+term = left:unary tail:(pow term)? { return tail ? `${left} ${tail[1] } **` : left}
 
 pow = '^' / '**'
 
