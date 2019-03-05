@@ -1,16 +1,28 @@
+{
+function binaryOp(left, tail) {
+  for (let op of tail) {
+    left = `${left} ${op[1]} ${op[0]}`
+  }
+  return left
+}
+}
+
 expr = sum
 
-sum = prod ([-+] prod)*
+sum = left:prod tail:([-+] prod)* { return binaryOp(left, tail)}
 
-prod = term ([*/] term)*
+prod = left:term tail:([*/] term)* { return binaryOp(left, tail)}
 
-term = unary (pow term)?
+term = left:unary tail:(pow term:term)? { return tail ? `${left} ${term } **` : left}
 
 pow = '^' / '**'
 
-unary = [-+]? simple
+unary = op:[-+]? simple:simple { return '-' === op ? `${simple} NEG` : simple}
 
-simple = brackets / id brackets / id / number
+simple = brackets
+  / id brackets
+  / id
+  / number
 
 brackets = '(' value:sum ')' { return value }
 
